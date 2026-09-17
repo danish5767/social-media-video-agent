@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7f4ff" />
+  <title>Luma — your social media companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">✦</span><span>Luma</span></a>
+      <p class="eyebrow">YOUR COMPANION</p>
+      <nav aria-label="Main navigation">
+        <button class="nav-item active" data-view="home"><span>⌂</span> Home</button>
+        <button class="nav-item" data-view="create"><span>✎</span> Create content</button>
+        <button class="nav-item" data-view="accounts"><span>◉</span> Connected accounts <b>7</b></button>
+        <button class="nav-item" data-view="schedule"><span>◷</span> Schedule & automation</button>
+        <button class="nav-item" data-view="insights"><span>◒</span> Insights</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="profile"><div class="profile-avatar">DR</div><div><strong>Danish</strong><small>Creator workspace</small></div><span>•••</span></div>
+        <button class="nav-item muted" id="settings-button"><span>⚙</span> Settings</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">✦</span> Luma</div>
+        <div class="topbar-actions"><button class="icon-btn" aria-label="Notifications">♧<i></i></button><button class="avatar-small">DR</button></div>
+      </header>
+
+      <section id="home-view" class="view active-view">
+        <div class="greeting"><div><p class="eyebrow">THURSDAY, SEPTEMBER 17</p><h1>Good morning, <span id="user-name-heading">Danish</span> <span>✦</span></h1><p class="subtle">Let’s make something meaningful today.</p></div><button class="talk-btn" id="talk-button"><span class="mic">♩</span><span><strong>Talk to Luma</strong><small>Say “Hey baby”</small></span><kbd>⌘ K</kbd></button></div>
+        <article class="sponsored-banner" id="sponsored-banner"><div class="sponsored-label">SPONSORED</div><div class="sponsored-copy"><strong>Make your next idea easier to share</strong><span>Creator tools picked for your workflow.</span></div><button class="sponsored-cta" id="sponsored-cta">Learn more →</button><button class="ad-close" id="ad-close" aria-label="Hide this sponsored ad">×</button></article>
+        <div class="dashboard-grid">
+          <article class="card companion-card">
+            <div class="card-heading"><div><p class="eyebrow">YOUR COMPANION</p><h2>Hey, I’m Luma <span class="online-dot"></span></h2></div><button class="more-btn">•••</button></div>
+            <div class="avatar-stage"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="depth-shadow"></div><div class="avatar-figure"><img class="luma-avatar" src="luma-avatar.png" alt="Luma, a cheerful red-haired AI companion" /><span class="lip-sync-mouth" aria-hidden="true"></span><span class="gesture gesture-left" aria-hidden="true">✦</span><span class="gesture gesture-right" aria-hidden="true">✦</span></div><div class="speaking-label" aria-live="polite">● Luma is speaking</div><div class="mood-pill" id="mood-pill">☀ Feeling focused <button aria-label="Change mood">⌄</button></div></div>
+            <div class="companion-footer"><p>“I’m here to help you create, plan, or just talk.”</p><button class="round-arrow" id="start-chat">→</button></div>
+          </article>
+
+          <article class="card chat-card">
+            <div class="card-heading"><div><p class="eyebrow">QUICK CHAT</p><h2>What’s on your mind?</h2></div><span class="status-label">● ONLINE</span></div>
+            <div class="messages" id="messages"><div class="message luma-message"><div class="message-avatar">✦</div><div><span class="message-name">Luma <time>9:41 AM</time></span><p id="welcome-message">Good morning! Want to work on your next post or take a moment to check in?</p></div></div></div>
+            <form class="chat-form" id="chat-form"><input id="chat-input" autocomplete="off" placeholder="Message Luma..." aria-label="Message Luma" /><button type="button" class="voice-input" id="voice-input" aria-label="Use voice">♩</button><button class="send-btn" aria-label="Send message">↑</button></form>
+            <div class="suggestions"><button>Help me create a post</button><button>I need a little support</button></div>
+          </article>
+
+          <article class="card schedule-card">
+            <div class="card-heading"><div><p class="eyebrow">UP NEXT</p><h2>Posting schedule</h2></div><button class="text-btn" data-view="schedule">View calendar →</button></div>
+            <div class="upcoming-post"><span class="date-tile"><strong>18</strong><small>SEP</small></span><div><strong>Finding momentum on hard days</strong><small>Instagram Reels · Tomorrow at 7:30 PM</small></div><span class="queued">QUEUED</span></div>
+            <div class="upcoming-post"><span class="date-tile"><strong>20</strong><small>SEP</small></span><div><strong>3 gentle habits for creators</strong><small>YouTube Shorts · Saturday at 11:00 AM</small></div><span class="queued">QUEUED</span></div>
+          </article>
+          <article class="card accounts-card">
+            <div class="card-heading"><div><p class="eyebrow">YOUR ECOSYSTEM</p><h2>Connected accounts</h2></div><button class="text-btn" data-view="accounts">Manage →</button></div>
+            <div class="account-list"><div class="account-row"><span class="social-icon instagram">◎</span><div><strong>Instagram</strong><small>@danish.creates</small></div><span class="connected">Connected</span></div><div class="account-row"><span class="social-icon youtube">▶</span><div><strong>YouTube</strong><small>Danish Creates</small></div><span class="connected">Connected</span></div><div class="account-row"><span class="social-icon tiktok">♪</span><div><strong>TikTok</strong><small>@danish5767</small></div><span class="connected">Connected</span></div></div>
+          </article>
+          <article class="card tip-card"><div class="tip-icon">✦</div><div><p class="eyebrow">LUMA’S TIP</p><h3>Consistency beats perfection</h3><p>Try sharing one honest idea today. Your audience connects with the real you.</p><button class="text-btn" id="tip-action">Tell me more →</button></div></article>
+        </div>
+        <p class="safety-note">Luma is an AI companion, not a therapist. If you’re in immediate danger or thinking about harming yourself, contact local emergency services or a crisis line now.</p>
+      </section>
+
+      <section id="create-view" class="view"><div class="page-title"><p class="eyebrow">CONTENT STUDIO</p><h1>Create content that gets found.</h1><p class="subtle">Upload a clip and Luma will understand the story, then prepare it for every channel.</p></div><div class="studio-grid"><article class="card form-card"><label for="clip-upload" class="upload-zone"><span class="upload-icon">↑</span><strong id="upload-label">Drop a clip here or browse</strong><small>MP4, MOV, or WebM · up to 200 MB</small><input id="clip-upload" type="file" accept="video/mp4,video/quicktime,video/webm" /></label><video id="clip-preview" class="clip-preview" controls hidden></video><label for="topic">Add context for Luma <span class="optional">(optional)</span></label><textarea id="topic" placeholder="e.g. A 30-second video about finding motivation on hard days"></textarea><div class="form-row"><label>Platform <select id="platform"><option>Instagram Reels</option><option>YouTube Shorts</option><option>TikTok</option><option>Facebook Reels</option><option>X</option></select></label><button class="primary-btn" id="analyze-clip">Analyze clip <span>✦</span></button></div></article><article class="card seo-card"><p class="eyebrow">LUMA’S ANALYSIS</p><div id="seo-output"><div class="empty-state">Upload a clip and Luma will identify its topic, hook, mood, and optimized tags.</div></div></article></div></section>
+
+      <section id="accounts-view" class="view"><div class="page-title"><p class="eyebrow">YOUR ECOSYSTEM</p><h1>Connected accounts</h1><p class="subtle">One workspace for every channel.</p></div><div class="card full-card"><div class="manage-row"><div class="social-icon instagram">◎</div><div><h3>Instagram</h3><p>@danish.creates · Reels and Stories</p></div><span class="connected">Connected</span><button class="outline-btn">Manage</button></div><div class="manage-row"><div class="social-icon youtube">▶</div><div><h3>YouTube</h3><p>Danish Creates · Shorts and videos</p></div><span class="connected">Connected</span><button class="outline-btn">Manage</button></div><div class="manage-row"><div class="social-icon tiktok">♪</div><div><h3>TikTok</h3><p>@danish5767 · Videos</p></div><span class="connected">Connected</span><button class="outline-btn">Manage</button></div><div class="manage-row"><div class="social-icon facebook">f</div><div><h3>Facebook</h3><p>Danish Creates · Reels and Pages</p></div><span class="connected">Connected</span><button class="outline-btn">Manage</button></div><div class="manage-row"><div class="social-icon whatsapp">◔</div><div><h3>WhatsApp</h3><p>Business · Messaging and Status</p></div><span class="connected">Connected</span><button class="outline-btn">Manage</button></div><div class="manage-row"><div class="social-icon x-social">𝕏</div><div><h3>X</h3><p>@danish5767 · Posts and video</p></div><span class="connected">Connected</span><button class="outline-btn">Manage</button></div><button class="add-account">+ Connect another account</button></div></section>
+      <section id="schedule-view" class="view"><div class="page-title"><p class="eyebrow">PUBLISHING CONTROL CENTER</p><h1>Schedule once. Show up everywhere.</h1><p class="subtle">Queue videos by calendar date and let Luma publish when the time arrives and your phone is connected.</p></div><div class="network-banner online" id="network-banner"><span class="network-dot"></span><div><strong id="network-title">You’re online</strong><small id="network-detail">Wi-Fi or mobile data is available. Queued posts can publish when due.</small></div></div><div class="schedule-layout"><article class="card form-card"><div class="card-heading"><div><p class="eyebrow">NEW VIDEO POST</p><h2>Queue a video</h2></div><span class="automation-badge">✦ LUMA READY</span></div><label for="schedule-video" class="schedule-upload"><span class="upload-icon">↑</span><strong id="schedule-video-label">Choose a video</strong><small>Clip stays queued until its scheduled time</small><input id="schedule-video" type="file" accept="video/mp4,video/quicktime,video/webm" /></label><label for="schedule-title">Post title</label><input class="text-input" id="schedule-title" placeholder="e.g. Finding momentum on hard days" /><div class="schedule-fields"><label>Date<input class="text-input" id="schedule-date" type="date" /></label><label>Time<input class="text-input" id="schedule-time" type="time" value="19:30" /></label></div><label>Publish to</label><div class="platform-checks"><label><input type="checkbox" checked /> Instagram</label><label><input type="checkbox" checked /> YouTube</label><label><input type="checkbox" /> TikTok</label><label><input type="checkbox" /> Facebook</label><label><input type="checkbox" /> X</label></div><label class="automation-toggle"><input id="automation-toggle" type="checkbox" checked /><span class="toggle-ui"></span><span><strong>Auto-publish when connected</strong><small>When due, publish automatically over Wi-Fi or mobile data.</small></span></label><button class="primary-btn" id="schedule-post">Add video to calendar <span>◷</span></button></article><article class="card calendar-card"><div class="card-heading"><div><p class="eyebrow">VIDEO CALENDAR</p><h2>Upcoming posts</h2></div><span class="status-label">● AUTO-PUBLISH ON</span></div><div id="scheduled-list" class="scheduled-list"><div class="scheduled-item"><span class="date-tile"><strong>18</strong><small>SEP</small></span><div><strong>Finding momentum on hard days</strong><small>🎬 video · Instagram · 7:30 PM</small></div><span class="post-state queued">QUEUED</span></div><div class="scheduled-item"><span class="date-tile"><strong>20</strong><small>SEP</small></span><div><strong>3 gentle habits for creators</strong><small>🎬 video · YouTube · 11:00 AM</small></div><span class="post-state queued">QUEUED</span></div><div class="automation-box"><span class="tip-icon">✦</span><div><strong>Automatic posting is ready</strong><p>Luma will hold each video safely, wait for its date and time, then post when your phone has Wi-Fi or mobile data.</p></div></div></div></article></div></section>
+      <section id="insights-view" class="view"><div class="page-title"><p class="eyebrow">WEEKLY INSIGHTS</p><h1>Your momentum is growing.</h1><p class="subtle">A simple view of what is resonating.</p></div><div class="insights-grid"><article class="card metric"><span>Reach</span><strong>24.8k</strong><small class="positive">↑ 18.4% this week</small></article><article class="card metric"><span>Engagement</span><strong>8.6%</strong><small class="positive">↑ 2.1% this week</small></article><article class="card metric"><span>Best time to post</span><strong>7:30 PM</strong><small>Based on your audience</small></article></div></section>
+    </main>
+  </div>
+  <div class="name-modal" id="name-modal" role="dialog" aria-modal="true" aria-labelledby="name-modal-title" hidden>
+    <div class="name-modal-card">
+      <div class="tip-icon">✦</div>
+      <p class="eyebrow">YOUR COMPANION</p>
+      <h2 id="name-modal-title">What should I call you?</h2>
+      <p>I’ll use your name to make our conversations feel more personal.</p>
+      <input id="name-input" maxlength="40" autocomplete="given-name" placeholder="Your name" />
+      <div class="name-modal-actions"><button class="outline-btn" id="name-cancel">Not now</button><button class="primary-btn" id="name-save">Let’s go <span>→</span></button></div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
