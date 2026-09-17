@@ -15,6 +15,49 @@ const toast = (text) => {
   window.setTimeout(() => el.classList.remove("show"), 2600);
 };
 
+let screenStream = null;
+const startScreenShare = document.querySelector("#start-screen-share");
+if (startScreenShare) {
+  const screenPreview = document.querySelector("#screen-preview");
+  const screenEmpty = document.querySelector("#screen-empty");
+  const screenStatus = document.querySelector("#screen-status");
+  const screenIndicator = document.querySelector("#screen-indicator");
+  const guideSuggestion = document.querySelector("#guide-suggestion");
+  const stopScreenShare = document.querySelector("#stop-screen-share");
+  const stopSharing = () => {
+    if (screenStream) screenStream.getTracks().forEach((track) => track.stop());
+    screenStream = null;
+    screenPreview.srcObject = null;
+    screenPreview.hidden = true;
+    screenEmpty.hidden = false;
+    guideSuggestion.hidden = true;
+    stopScreenShare.hidden = true;
+    screenStatus.textContent = "Waiting for approval";
+    screenIndicator.textContent = "● OFF";
+  };
+  startScreenShare.addEventListener("click", async () => {
+    if (!navigator.mediaDevices?.getDisplayMedia) {
+      toast("Screen guidance needs a supported browser or native app");
+      return;
+    }
+    try {
+      screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+      screenPreview.srcObject = screenStream;
+      screenPreview.hidden = false;
+      screenEmpty.hidden = true;
+      guideSuggestion.hidden = false;
+      stopScreenShare.hidden = false;
+      screenStatus.textContent = "Luma can see your selected screen";
+      screenIndicator.textContent = "● LIVE";
+      screenStream.getVideoTracks()[0].addEventListener("ended", stopSharing);
+      toast("Screen guidance approved");
+    } catch (error) {
+      if (error.name !== "NotAllowedError") toast("Screen sharing could not start");
+    }
+  });
+  stopScreenShare.addEventListener("click", stopSharing);
+}
+
 const nameModal = document.querySelector("#name-modal");
 const nameInput = document.querySelector("#name-input");
 const savedName = localStorage.getItem("luma-user-name");
