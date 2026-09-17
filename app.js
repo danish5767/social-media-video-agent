@@ -15,6 +15,49 @@ const toast = (text) => {
   window.setTimeout(() => el.classList.remove("show"), 2600);
 };
 
+let screenStream = null;
+const startScreenShare = document.querySelector("#start-screen-share");
+if (startScreenShare) {
+  const screenPreview = document.querySelector("#screen-preview");
+  const screenEmpty = document.querySelector("#screen-empty");
+  const screenStatus = document.querySelector("#screen-status");
+  const screenIndicator = document.querySelector("#screen-indicator");
+  const guideSuggestion = document.querySelector("#guide-suggestion");
+  const stopScreenShare = document.querySelector("#stop-screen-share");
+  const stopSharing = () => {
+    if (screenStream) screenStream.getTracks().forEach((track) => track.stop());
+    screenStream = null;
+    screenPreview.srcObject = null;
+    screenPreview.hidden = true;
+    screenEmpty.hidden = false;
+    guideSuggestion.hidden = true;
+    stopScreenShare.hidden = true;
+    screenStatus.textContent = "Waiting for approval";
+    screenIndicator.textContent = "● OFF";
+  };
+  startScreenShare.addEventListener("click", async () => {
+    if (!navigator.mediaDevices?.getDisplayMedia) {
+      toast("Screen guidance needs a supported browser or native app");
+      return;
+    }
+    try {
+      screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+      screenPreview.srcObject = screenStream;
+      screenPreview.hidden = false;
+      screenEmpty.hidden = true;
+      guideSuggestion.hidden = false;
+      stopScreenShare.hidden = false;
+      screenStatus.textContent = "Luma can see your selected screen";
+      screenIndicator.textContent = "● LIVE";
+      screenStream.getVideoTracks()[0].addEventListener("ended", stopSharing);
+      toast("Screen guidance approved");
+    } catch (error) {
+      if (error.name !== "NotAllowedError") toast("Screen sharing could not start");
+    }
+  });
+  stopScreenShare.addEventListener("click", stopSharing);
+}
+
 const nameModal = document.querySelector("#name-modal");
 const nameInput = document.querySelector("#name-input");
 const savedName = localStorage.getItem("luma-user-name");
@@ -69,6 +112,57 @@ const loadVoices = () => {
 };
 loadVoices();
 if ("speechSynthesis" in window) window.speechSynthesis.onvoiceschanged = loadVoices;
+
+let wakeRecognition = null;
+let wakeEnabled = false;
+const wakeButton = document.querySelector("#wake-word-button");
+const wakeLabel = document.querySelector("#wake-word-label");
+const setWakeState = (enabled) => {
+  wakeEnabled = enabled;
+  wakeButton.classList.toggle("active", enabled);
+  wakeButton.setAttribute("aria-pressed", String(enabled));
+  wakeLabel.textContent = enabled ? "Hey baby on" : "Hey baby off";
+};
+const startWakeListener = () => {
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Recognition) {
+    toast("Wake word needs Chrome or another Speech Recognition browser");
+    return;
+  }
+  if (wakeRecognition) wakeRecognition.stop();
+  wakeRecognition = new Recognition();
+  wakeRecognition.continuous = true;
+  wakeRecognition.interimResults = true;
+  wakeRecognition.lang = "en-US";
+  wakeRecognition.onresult = (event) => {
+    const transcript = [...event.results].slice(event.resultIndex).map((result) => result[0].transcript).join(" ");
+    if (!/hey\s+baby/i.test(transcript)) return;
+    const prompt = transcript.replace(/.*hey\s+baby/i, "").trim();
+    const message = prompt || "I’m here. What would you like to talk about?";
+    document.querySelector("#chat-input").value = message;
+    document.querySelector("#chat-form").requestSubmit();
+    toast("Luma heard you");
+  };
+  wakeRecognition.onerror = (event) => {
+    if (event.error === "not-allowed") {
+      setWakeState(false);
+      toast("Microphone permission is needed for Hey baby");
+    }
+  };
+  wakeRecognition.onend = () => {
+    if (wakeEnabled) {
+      try { wakeRecognition.start(); } catch (error) { /* Browser is already restarting recognition. */ }
+    }
+  };
+  wakeRecognition.start();
+  setWakeState(true);
+  toast("Say “Hey baby” whenever you need Luma");
+};
+const stopWakeListener = () => {
+  setWakeState(false);
+  if (wakeRecognition) wakeRecognition.stop();
+};
+wakeButton.addEventListener("click", () => (wakeEnabled ? stopWakeListener() : startWakeListener()));
 
 function speakAsLuma(text) {
   if (!("speechSynthesis" in window)) {
