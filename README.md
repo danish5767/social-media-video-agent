@@ -16,6 +16,7 @@ Luma is a browser MVP for a warm AI companion and creator workspace. It combines
 - Conversation follow-ups after five minutes without a reply, plus calm apology, repair, and forgiveness responses when a user is upset.
 - Avatar motion treatment with walk-in depth, idle 3D-style sway, pointer parallax, breathing shadow, speaking gestures, and state-aware mood text.
 - An explicit Screen Guidance view using `getDisplayMedia()` so the user chooses and can stop the screen/window Luma may view.
+- A user-controlled "Hey baby" wake-word listener using the browser Speech Recognition API while the page is open.
 - A clear safety boundary: Luma is supportive, but not a therapist or emergency service.
 
 ## Run locally
@@ -39,3 +40,5 @@ The five-minute follow-up runs while the web app is open. A production mobile ap
 The current motion is a layered 2D presentation of the supplied artwork. Natural hand joints, facial expressions, walking cycles, and true 3D movement require a rigged avatar asset such as VRM or GLB plus an animation runtime.
 
 Screen Guidance is opt-in and view-only in the browser MVP. Luma does not receive screen access until the user accepts the browser prompt and cannot click or type. A production Android implementation should use `MediaProjection` only after user consent, run it as a foreground service with a persistent notification, encrypt any processing, and provide an obvious stop control. iOS uses ReplayKit and has comparable OS restrictions; silent background capture is not supported.
+
+The wake word is opt-in: the user must press the "Hey baby off" control to enable it and grant microphone permission. It listens only while the page is open and the browser supports Speech Recognition. A production mobile assistant needs a native foreground audio service, an OS-visible microphone indicator, battery controls, and a clear disable action; hidden always-on listening is not implemented.

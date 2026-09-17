@@ -113,6 +113,57 @@ const loadVoices = () => {
 loadVoices();
 if ("speechSynthesis" in window) window.speechSynthesis.onvoiceschanged = loadVoices;
 
+let wakeRecognition = null;
+let wakeEnabled = false;
+const wakeButton = document.querySelector("#wake-word-button");
+const wakeLabel = document.querySelector("#wake-word-label");
+const setWakeState = (enabled) => {
+  wakeEnabled = enabled;
+  wakeButton.classList.toggle("active", enabled);
+  wakeButton.setAttribute("aria-pressed", String(enabled));
+  wakeLabel.textContent = enabled ? "Hey baby on" : "Hey baby off";
+};
+const startWakeListener = () => {
+  const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Recognition) {
+    toast("Wake word needs Chrome or another Speech Recognition browser");
+    return;
+  }
+  if (wakeRecognition) wakeRecognition.stop();
+  wakeRecognition = new Recognition();
+  wakeRecognition.continuous = true;
+  wakeRecognition.interimResults = true;
+  wakeRecognition.lang = "en-US";
+  wakeRecognition.onresult = (event) => {
+    const transcript = [...event.results].slice(event.resultIndex).map((result) => result[0].transcript).join(" ");
+    if (!/hey\s+baby/i.test(transcript)) return;
+    const prompt = transcript.replace(/.*hey\s+baby/i, "").trim();
+    const message = prompt || "I’m here. What would you like to talk about?";
+    document.querySelector("#chat-input").value = message;
+    document.querySelector("#chat-form").requestSubmit();
+    toast("Luma heard you");
+  };
+  wakeRecognition.onerror = (event) => {
+    if (event.error === "not-allowed") {
+      setWakeState(false);
+      toast("Microphone permission is needed for Hey baby");
+    }
+  };
+  wakeRecognition.onend = () => {
+    if (wakeEnabled) {
+      try { wakeRecognition.start(); } catch (error) { /* Browser is already restarting recognition. */ }
+    }
+  };
+  wakeRecognition.start();
+  setWakeState(true);
+  toast("Say “Hey baby” whenever you need Luma");
+};
+const stopWakeListener = () => {
+  setWakeState(false);
+  if (wakeRecognition) wakeRecognition.stop();
+};
+wakeButton.addEventListener("click", () => (wakeEnabled ? stopWakeListener() : startWakeListener()));
+
 function speakAsLuma(text) {
   if (!("speechSynthesis" in window)) {
     toast("Voice playback is not supported in this browser");
